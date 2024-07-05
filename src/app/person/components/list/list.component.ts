@@ -10,13 +10,6 @@ import { Person } from '../../interfaces/person';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import {
-  FormControl,
-  FormGroupDirective,
-  NgForm,
-  Validators,
-} from '@angular/forms';
-import { ErrorStateMatcher } from '@angular/material/core';
 import { PERSON_EXAMPLE_DATA } from '../../interfaces/data';
 import { NavigationExtras, Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
@@ -46,20 +39,14 @@ export class ListComponent implements OnInit, AfterViewInit {
   dataSource = new MatTableDataSource<Person>(this.data);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  error: any;
   readonly dialog = inject(MatDialog);
-
-  emailFormControl = new FormControl('', [
-    Validators.required,
-    Validators.email,
-  ]);
 
   constructor(
     private service: RestService,
     private router: Router,
     private _snackBar: MatSnackBar,
   ) {}
-
+  connexionError = false;
   ngOnInit(): void {
     this.loadData();
   }
@@ -67,8 +54,8 @@ export class ListComponent implements OnInit, AfterViewInit {
   loadData(): void {
     this.service.getAll().subscribe(
       (d) => (this.dataSource.data = d),
-      (e) => {
-        this.error = e;
+      () => {
+        this.connexionError = true;
         this.dataSource.data = PERSON_EXAMPLE_DATA;
       },
     );
@@ -120,19 +107,5 @@ export class ListComponent implements OnInit, AfterViewInit {
       horizontalPosition: 'end',
       verticalPosition: 'top',
     });
-  }
-}
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(
-    control: FormControl | null,
-    form: FormGroupDirective | NgForm | null,
-  ): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(
-      control &&
-      control.invalid &&
-      (control.dirty || control.touched || isSubmitted)
-    );
   }
 }

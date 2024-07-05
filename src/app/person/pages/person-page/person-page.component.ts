@@ -1,6 +1,4 @@
 import { Component } from '@angular/core';
-import { Router } from '@angular/router';
-import {FormControl} from "@angular/forms";
 
 @Component({
   selector: 'person-page',
@@ -9,15 +7,4 @@ import {FormControl} from "@angular/forms";
     display: none;
   }`,
 })
-export class PersonPageComponent {
-  panelColor: FormControl = new FormControl('name');
-  constructor(private router: Router) {}
-
-  navigateTo(route: string) {
-    this.router.navigate([route]).then();
-  }
-
-  onInput($event: Event) {
-
-  }
-}
+export class PersonPageComponent {}

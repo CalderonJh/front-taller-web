@@ -9,10 +9,8 @@ import {
 import { Person } from '../../interfaces/person';
 import { Router } from '@angular/router';
 import { RestService } from '../../services/rest.service';
-import { Observable, of } from 'rxjs';
+import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
-
-type saveMethod = (arg: Person) => Observable<string>;
 
 @Component({
   selector: 'app-add',
@@ -63,6 +61,7 @@ export class AddComponent implements OnInit {
           this.statePerson ? new Date(this.statePerson.birthDate) : '',
           [v.required],
         ],
+        docId: [this.statePerson?.document.id || null],
         docType: [
           this.statePerson?.document.type.toLowerCase() || 'cc',
           [v.required],
@@ -72,6 +71,7 @@ export class AddComponent implements OnInit {
           [v.required, v.minLength(7)],
         ],
         docDescription: [this.statePerson?.document.description || ''],
+        cityId: [this.statePerson?.city.id || null],
         city: [this.statePerson?.city.name || '', namesValid],
         state: [this.statePerson?.city.state || '', namesValid],
         country: [this.statePerson?.city.country || '', namesValid],
@@ -113,24 +113,56 @@ export class AddComponent implements OnInit {
   }
 
   onSave() {
-    let person: Person = this.form.getRawValue();
-    if (!this.form.valid) return;
-    of(this.service.put(person)).subscribe({
-      next: (response) =>
-        response.subscribe((msg) => {
-          this.openSnackBar(msg);
-        }),
-    });
-
+    let person: Person = this.mapPerson();
+    console.log(person);
+    if (this.statePerson) this.updatePerson(person);
+    else this.createPerson(person);
+    setTimeout(() => {
+      this.router.navigate(['/persons']);
+    }, 500);
   }
 
-  save(person: Person, saveMethod: saveMethod) {
-    of(saveMethod(person)).subscribe({
+  updatePerson(person: Person) {
+    of(this.service.patch(person)).subscribe({
       next: (response) =>
         response.subscribe((msg) => {
           this.openSnackBar(msg);
         }),
     });
+  }
+
+  createPerson(person: Person) {
+    of(this.service.post(person)).subscribe({
+      next: (response) =>
+        response.subscribe((msg) => {
+          this.openSnackBar(msg);
+        }),
+    });
+  }
+
+  mapPerson(): Person {
+    return {
+      id: this.form.get('id')?.value,
+      name: this.form.get('name')?.value,
+      lastName: this.form.get('lastName')?.value,
+      email: this.form.get('email')?.value,
+      phone: this.form.get('phone')?.value,
+      birthDate: this.form.get('dob')?.value,
+      document: {
+        id: this.form.get('docId')?.value,
+        type: this.form.get('docType')?.value,
+        number: this.form.get('docNumber')?.value,
+        description: this.form.get('docDescription')?.value,
+      },
+      city: {
+        id: this.form.get('cityId')?.value,
+        name: this.form.get('city')?.value,
+        state: this.form.get('state')?.value,
+        country: this.form.get('country')?.value,
+      },
+      username: this.form.get('username')?.value,
+      password: this.form.get('password')?.value,
+    };
   }
 
   openSnackBar(message: string) {
@@ -143,7 +175,6 @@ export class AddComponent implements OnInit {
   showHint(key: string) {
     let control = this.form.get(key);
     return control?.dirty && control?.invalid && control.value;
-    // return this.form.get(key)?.dirty && this.form.get(key)?.invalid;
   }
 }
 

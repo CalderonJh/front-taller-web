@@ -10,12 +10,13 @@ export class RestService {
   constructor(private httpClient: HttpClient) {}
 
   getAll(): Observable<Person[]> {
-    return this.httpClient.get<Person[]>('http://localhost:8080/person/all');
+    return this.httpClient
+      .get<Person[]>('http://localhost:8080/person/all')
   }
 
-  put(person: Person): Observable<string> {
+  patch(person: Person): Observable<string> {
     return this.httpClient
-      .put('http://localhost:8080/person/update', person)
+      .patch('http://localhost:8080/person/update', person)
       .pipe(
         map(() => 'Actualizado correctamente'),
         catchError((e) => {
@@ -27,12 +28,12 @@ export class RestService {
 
   post(person: Person): Observable<string> {
     return this.httpClient
-      .post('https://jsonplaceholder.typicode.com/todos', person)
+      .post('http://localhost:8080/person/save', person)
       .pipe(
         map(() => 'Creado correctamente'),
         catchError(() => {
           return of('Error creando persona');
-        })
+        }),
       );
   }
 
