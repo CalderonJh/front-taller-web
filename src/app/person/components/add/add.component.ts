@@ -1,11 +1,11 @@
-import { Component, Input, OnInit, inject, signal } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import {
   FormBuilder,
-  FormControl,
   FormGroup,
   Validators as v,
 } from '@angular/forms';
 import { Person } from '../../interfaces/person';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-add',
@@ -14,7 +14,7 @@ import { Person } from '../../interfaces/person';
 })
 export class AddComponent implements OnInit {
   hide = signal(true);
-  @Input('person') person?: Person;
+  person?: Person;
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide);
@@ -26,26 +26,38 @@ export class AddComponent implements OnInit {
   minDate = new Date();
   maxDate = new Date();
 
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private router: Router,
+  ) {
+    const navigation = this.router.getCurrentNavigation();
+    if (navigation?.extras.state) {
+      this.person = navigation.extras.state['person'];
+    }
+  }
 
   ngOnInit() {
     this.defineDates();
     this.form = this.fb.group({
-      name: ['HOla', [v.required]],
-      lastName: ['', [v.required]],
-      email: ['', [v.required, v.email]],
-      phone: ['', [v.required]],
-      dob: ['', [v.required]],
-      docType: ['cc', [v.required]],
-      docNumber: ['', [v.required]],
-      docDescription: [''],
-      city: ['', [v.required]],
-      state: ['', [v.required]],
-      country: ['', [v.required]],
-      username: ['', [v.required]],
+      name: [this.person?.name || '', [v.required]],
+      lastName: [this.person?.lastName || '', [v.required]],
+      email: [this.person?.email || '', [v.required, v.email]],
+      phone: [this.person?.phone || '', [v.required]],
+      dob: [this.person ? new Date(this.person.birthDate) : '', [v.required]],
+      docType: [this.person?.document.type.toLowerCase() || 'cc', [v.required]],
+      docNumber: [this.person?.document.number || '', [v.required]],
+      docDescription: [this.person?.document.description || ''],
+      city: [this.person?.city.name || '', [v.required]],
+      state: [this.person?.city.state || '', [v.required]],
+      country: [this.person?.city.country || '', [v.required]],
+      username: [this.person?.username || '', [v.required]],
       password: ['', [v.required]],
       confirmPassword: ['', [v.required]],
     });
+    if (this.person) {
+      this.form.get('password')!.disable();
+      this.form.get('confirmPassword')!.disable();
+    }
   }
 
   defineDates() {

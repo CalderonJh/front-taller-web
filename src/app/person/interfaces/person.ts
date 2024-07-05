@@ -7,7 +7,7 @@ export interface Person {
   lastName: string;
   document: Document;
   city: City;
-  dob: Date | string;
+  birthDate: Date | string;
   email: string;
   phone: string;
   username: string;

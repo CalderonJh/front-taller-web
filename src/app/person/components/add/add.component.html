@@ -87,7 +87,7 @@
           <mat-select formControlName="docType">
             <mat-option value="cc">CC</mat-option>
             <mat-option value="ce">CE</mat-option>
-            <mat-option value="passport">Pasaporte</mat-option>
+            <mat-option value="pasaporte">Pasaporte</mat-option>
             <mat-option value="other">Otro</mat-option>
           </mat-select>
         </mat-form-field>
@@ -196,7 +196,6 @@
             [type]="this.hide() ? 'password' : 'text'"
             formControlName="confirmPassword"
             (blur)="updateErrorMessage()"
-            required
           />
           <mat-error *ngIf="form.get('confirmPassword')!.invalid">{{
               errorMessage
