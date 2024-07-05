@@ -1,0 +1,278 @@
+[
+  {
+    "id": 1,
+    "name": "Juan",
+    "lastName": "Pérez",
+    "document": {
+      "id": 1,
+      "type": "DNI",
+      "number": "12345678A",
+      "description": "Documento Nacional de Identidad"
+    },
+    "city": {
+      "id": 1,
+      "name": "Madrid",
+      "state": "Comunidad de Madrid",
+      "country": "España",
+      "description": "Capital de España"
+    },
+    "birthDate": "1990-01-01T05:00:00.000+00:00",
+    "email": "juan.perez@example.com",
+    "phone": "123456789",
+    "username": "jperez",
+    "password": "password123"
+  },
+  {
+    "id": 2,
+    "name": "María",
+    "lastName": "López",
+    "document": {
+      "id": 2,
+      "type": "Pasaporte",
+      "number": "A1234567",
+      "description": "Pasaporte Español"
+    },
+    "city": {
+      "id": 2,
+      "name": "Barcelona",
+      "state": "Cataluña",
+      "country": "España",
+      "description": "Ciudad conocida por su arte y arquitectura"
+    },
+    "birthDate": "1985-05-15T05:00:00.000+00:00",
+    "email": "maria.lopez@example.com",
+    "phone": "987654321",
+    "username": "mlopez",
+    "password": "password456"
+  },
+  {
+    "id": 3,
+    "name": "Carlos",
+    "lastName": "García",
+    "document": {
+      "id": 3,
+      "type": "CE",
+      "number": "23456789B",
+      "description": "Cédula de Extranjería"
+    },
+    "city": {
+      "id": 3,
+      "name": "Valencia",
+      "state": "Comunidad Valenciana",
+      "country": "España",
+      "description": "Famosa por la Ciudad de las Artes y las Ciencias"
+    },
+    "birthDate": "1995-09-30T05:00:00.000+00:00",
+    "email": "carlos.garcia@example.com",
+    "phone": "567123890",
+    "username": "cgarcia",
+    "password": "password789"
+  },
+  {
+    "id": 4,
+    "name": "Ana",
+    "lastName": "Martínez",
+    "document": {
+      "id": 1,
+      "type": "DNI",
+      "number": "12345678A",
+      "description": "Documento Nacional de Identidad"
+    },
+    "city": {
+      "id": 4,
+      "name": "Paris",
+      "state": "Paris",
+      "country": "Francia",
+      "description": "Capital de Francia y conocida por la Torre Eiffel"
+    },
+    "birthDate": "1988-07-20T05:00:00.000+00:00",
+    "email": "ana.martinez@example.com",
+    "phone": "456789012",
+    "username": "amartinez",
+    "password": "passwordabc"
+  },
+  {
+    "id": 5,
+    "name": "Luis",
+    "lastName": "Rodríguez",
+    "document": {
+      "id": 2,
+      "type": "Pasaporte",
+      "number": "A1234567",
+      "description": "Pasaporte Español"
+    },
+    "city": {
+      "id": 5,
+      "name": "Roma",
+      "state": "Roma",
+      "country": "Italia",
+      "description": "Capital de Italia y hogar del Coliseo Romano"
+    },
+    "birthDate": "1980-03-12T05:00:00.000+00:00",
+    "email": "luis.rodriguez@example.com",
+    "phone": "654321098",
+    "username": "lrodriguez",
+    "password": "passworddef"
+  },
+  {
+    "id": 6,
+    "name": "Elena",
+    "lastName": "Fernández",
+    "document": {
+      "id": 3,
+      "type": "CE",
+      "number": "23456789B",
+      "description": "Cédula de Extranjería"
+    },
+    "city": {
+      "id": 6,
+      "name": "Londres",
+      "state": "Londres",
+      "country": "Reino Unido",
+      "description": "Capital del Reino Unido y famosa por el Big Ben"
+    },
+    "birthDate": "1992-11-05T04:00:00.000+00:00",
+    "email": "elena.fernandez@example.com",
+    "phone": "789012345",
+    "username": "efernandez",
+    "password": "passwordghi"
+  },
+  {
+    "id": 7,
+    "name": "Ahmed",
+    "lastName": "Ali",
+    "document": {
+      "id": 1,
+      "type": "DNI",
+      "number": "12345678A",
+      "description": "Documento Nacional de Identidad"
+    },
+    "city": {
+      "id": 7,
+      "name": "Nueva York",
+      "state": "Nueva York",
+      "country": "Estados Unidos",
+      "description": "Ciudad más grande de Estados Unidos y centro cultural"
+    },
+    "birthDate": "1987-04-18T05:00:00.000+00:00",
+    "email": "ahmed.ali@example.com",
+    "phone": "890123456",
+    "username": "aali",
+    "password": "passwordjkl"
+  },
+  {
+    "id": 8,
+    "name": "Sophie",
+    "lastName": "Dubois",
+    "document": {
+      "id": 2,
+      "type": "Pasaporte",
+      "number": "A1234567",
+      "description": "Pasaporte Español"
+    },
+    "city": {
+      "id": 8,
+      "name": "Tokio",
+      "state": "Tokio",
+      "country": "Japón",
+      "description": "Capital de Japón y una de las ciudades más pobladas del mundo"
+    },
+    "birthDate": "1983-08-25T05:00:00.000+00:00",
+    "email": "sophie.dubois@example.com",
+    "phone": "234567890",
+    "username": "sdubois",
+    "password": "passwordmno"
+  },
+  {
+    "id": 9,
+    "name": "Hiroshi",
+    "lastName": "Tanaka",
+    "document": {
+      "id": 3,
+      "type": "CE",
+      "number": "23456789B",
+      "description": "Cédula de Extranjería"
+    },
+    "city": {
+      "id": 9,
+      "name": "Sídney",
+      "state": "Nueva Gales del Sur",
+      "country": "Australia",
+      "description": "Ciudad icónica de Australia con el Ópera House"
+    },
+    "birthDate": "1993-12-10T05:00:00.000+00:00",
+    "email": "hiroshi.tanaka@example.com",
+    "phone": "543210987",
+    "username": "htanaka",
+    "password": "passwordpqr"
+  },
+  {
+    "id": 10,
+    "name": "Isabella",
+    "lastName": "Silva",
+    "document": {
+      "id": 1,
+      "type": "DNI",
+      "number": "12345678A",
+      "description": "Documento Nacional de Identidad"
+    },
+    "city": {
+      "id": 10,
+      "name": "Ciudad de México",
+      "state": "Ciudad de México",
+      "country": "México",
+      "description": "Capital de México y rica en historia y cultura"
+    },
+    "birthDate": "1986-06-30T05:00:00.000+00:00",
+    "email": "isabella.silva@example.com",
+    "phone": "678901234",
+    "username": "isilva",
+    "password": "passwordstu"
+  },
+  {
+    "id": 11,
+    "name": "Maximilian",
+    "lastName": "Schulz",
+    "document": {
+      "id": 2,
+      "type": "Pasaporte",
+      "number": "A1234567",
+      "description": "Pasaporte Español"
+    },
+    "city": {
+      "id": 11,
+      "name": "Rio de Janeiro",
+      "state": "Rio de Janeiro",
+      "country": "Brasil",
+      "description": "Famosa por sus playas y el Cristo Redentor"
+    },
+    "birthDate": "1982-02-08T05:00:00.000+00:00",
+    "email": "maximilian.schulz@example.com",
+    "phone": "321098765",
+    "username": "mschulz",
+    "password": "passwordvwx"
+  },
+  {
+    "id": 12,
+    "name": "Yuki",
+    "lastName": "Sato",
+    "document": {
+      "id": 3,
+      "type": "CE",
+      "number": "23456789B",
+      "description": "Cédula de Extranjería"
+    },
+    "city": {
+      "id": 12,
+      "name": "Dubai",
+      "state": "Dubai",
+      "country": "Emiratos Árabes Unidos",
+      "description": "Ciudad conocida por sus rascacielos y el Burj Khalifa"
+    },
+    "birthDate": "1991-10-15T05:00:00.000+00:00",
+    "email": "yuki.sato@example.com",
+    "phone": "876543210",
+    "username": "ysato",
+    "password": "passwordyz"
+  }
+]

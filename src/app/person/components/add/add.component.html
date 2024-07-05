@@ -1,0 +1,217 @@
+<div class="flex justify-center">
+  <div class="m-3 md:w-3/4 lg:w-3/4 sm:w-full">
+    <form [formGroup]="form" (keydown.enter)="preventDefault($event)">
+      <div class="text-xl text-gray-300 my-3">Información personal</div>
+      <div class="flex flex-row w-full gap-3">
+        <mat-form-field class="w-1/2">
+          <mat-label>Nombre</mat-label>
+          <input
+            matInput
+            formControlName="name"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('name')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-1/2">
+          <mat-label>Apellido</mat-label>
+          <input
+            matInput
+            formControlName="lastName"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('lastName')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="flex flex-row w-full gap-3">
+        <mat-form-field class="w-1/3">
+          <mat-label>Email</mat-label>
+          <input
+            matInput
+            placeholder="email@example.com"
+            formControlName="email"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('email')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-1/3">
+          <mat-label>Telefono</mat-label>
+          <input
+            matInput
+            formControlName="phone"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('phone')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-1/3">
+          <mat-label>Fecha de nacimiento</mat-label>
+          <input
+            matInput
+            [min]="minDate"
+            [max]="maxDate"
+            formControlName="dob"
+            [matDatepicker]="picker"
+            required
+            (blur)="updateErrorMessage()"
+          />
+          <mat-datepicker-toggle
+            matIconSuffix
+            [for]="picker"
+          ></mat-datepicker-toggle>
+          <mat-datepicker #picker></mat-datepicker>
+          <mat-error *ngIf="form.get('dob')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="text-xl text-gray-300 my-3">Identificación</div>
+      <div class="flex flex-row w-full gap-3">
+        <mat-form-field>
+          <mat-label>Tipo</mat-label>
+          <mat-select formControlName="docType">
+            <mat-option value="cc">CC</mat-option>
+            <mat-option value="ce">CE</mat-option>
+            <mat-option value="passport">Pasaporte</mat-option>
+            <mat-option value="other">Otro</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field class="w-1/3">
+          <mat-label>Número</mat-label>
+          <input
+            matInput
+            formControlName="docNumber"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('docNumber')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-full">
+          <mat-label>Descripción</mat-label>
+          <input
+            matInput
+            formControlName="docDescription"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('docDescription')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="text-xl text-gray-300 my-3">Ciudad</div>
+      <div class="flex flex-row w-full gap-3">
+        <mat-form-field class="w-1/3">
+          <mat-label>Ciudad</mat-label>
+          <input
+            matInput
+            formControlName="city"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('city')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-1/3">
+          <mat-label>Departamento</mat-label>
+          <input
+            matInput
+            formControlName="state"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('state')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-1/3">
+          <mat-label>Pais</mat-label>
+          <input
+            matInput
+            formControlName="country"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('country')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="text-xl text-gray-300 my-3">Usuario</div>
+      <div class="flex flex-row w-full gap-3">
+        <mat-form-field class="w-1/3">
+          <mat-label>Nombre de usuario</mat-label>
+          <input
+            matInput
+            formControlName="username"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('username')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-1/3">
+          <mat-label>Crea una contraseña</mat-label>
+          <input
+            matInput
+            [type]="this.hide() ? 'password' : 'text'"
+            formControlName="password"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('password')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+        <mat-form-field class="w-1/3">
+          <mat-label>Confirmar contraseña</mat-label>
+          <input
+            matInput
+            [type]="this.hide() ? 'password' : 'text'"
+            formControlName="confirmPassword"
+            (blur)="updateErrorMessage()"
+            required
+          />
+          <mat-error *ngIf="form.get('confirmPassword')!.invalid">{{
+              errorMessage
+            }}
+          </mat-error>
+        </mat-form-field>
+      </div>
+      <div class="flex w-full justify-end gap-5">
+        <button mat-stroked-button type="submit" routerLink="''" style="color: #fa6767">
+          Salir
+        </button>
+        <button mat-stroked-button type="submit" [disabled]="false">
+          Hecho
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

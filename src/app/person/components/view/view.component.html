@@ -1,0 +1,23 @@
+<script src="../../interfaces/person.ts"></script>
+<div class="text-blue-100 p-7">
+  <div class="font-bold">Información personal</div>
+  <div><span>Nombre completo: </span> {{ person.name }} {{ person.lastName }}</div>
+  <div><span>Email: </span> {{ person.email }}</div>
+  <div><span>Telefono: </span> {{ person.phone }}</div>
+  <div class="font-bold mt-4">Documentación</div>
+  <div><span>{{ person.document.type }} </span> {{ person.document.number }}</div>
+  <div>{{ person.document.description || 'No se agregó descripción' }}</div>
+  <div class="font-bold mt-4">Ubicación</div>
+  <div><span>Ciudad: </span> {{ person.city.name }}</div>
+  <div><span>Departamento: </span> {{ person.city.state }}</div>
+  <div><span>Pais: </span> {{ person.city.country }}</div>
+  <div class="font-bold mt-4">Usuario</div>
+  <div><span>Usuario: </span> {{ person.username }}</div>
+  <div><span>Contraseña: </span>
+
+    <span class="cursor-pointer text-[#00dddd]" (click)="openSnackBar()" aria-label="Show an example snack-bar">
+
+      Ver
+    </span>
+  </div>
+</div>
