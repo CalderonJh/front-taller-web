@@ -6,7 +6,7 @@ import { PersonPageComponent } from './pages/person-page/person-page.component';
 import { ListComponent } from './components/list/list.component';
 import { RestService } from './services/rest.service';
 import { HttpClient } from '@angular/common/http';
-import { ViewComponent } from './components/view/view.component';
+import { ViewComponent } from './components/dialog/view/view.component';
 import { MatTableModule } from '@angular/material/table';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSortModule } from '@angular/material/sort';

@@ -1,8 +1,6 @@
 import {
   AfterViewInit,
-  ChangeDetectionStrategy,
   Component,
-  Inject,
   inject,
   OnInit,
   ViewChild,
@@ -21,19 +19,11 @@ import {
 import { ErrorStateMatcher } from '@angular/material/core';
 import { PERSON_EXAMPLE_DATA } from '../../interfaces/data';
 import { NavigationExtras, Router } from '@angular/router';
-import {
-  MAT_DIALOG_DATA,
-  MatDialog,
-  MatDialogActions,
-  MatDialogClose,
-  MatDialogContent,
-  MatDialogRef,
-  MatDialogTitle,
-} from '@angular/material/dialog';
-import { ViewComponent } from '../view/view.component';
-import { MatButtonModule } from '@angular/material/button';
-import { catchError } from 'rxjs';
+import { MatDialog } from '@angular/material/dialog';
+import { ViewComponent } from '../dialog/view/view.component';
+import { of } from 'rxjs';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { ConfirmDeleteComponent } from '../dialog/confirm-delete/confirm-delete.component';
 
 @Component({
   templateUrl: './list.component.html',
@@ -53,7 +43,6 @@ export class ListComponent implements OnInit, AfterViewInit {
     'actions',
   ];
   data: Person[] = [];
-  editable: boolean = false;
   dataSource = new MatTableDataSource<Person>(this.data);
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -76,10 +65,13 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   loadData(): void {
-    this.service.getAll().subscribe((data: Person[]) => {
-      this.dataSource.data = data;
-      // this.table.renderRows(); // Actualiza la tabla
-    });
+    this.service.getAll().subscribe(
+      (d) => (this.dataSource.data = d),
+      (e) => {
+        this.error = e;
+        this.dataSource.data = PERSON_EXAMPLE_DATA;
+      },
+    );
   }
 
   ngAfterViewInit() {
@@ -88,14 +80,11 @@ export class ListComponent implements OnInit, AfterViewInit {
     this.dataSource.data = this.data;
   }
 
-  editMode(row: Person) {
+  editMode(person: Person) {
     const navigationExtras: NavigationExtras = {
-      state: {
-        person: row,
-      },
+      state: { person },
     };
-    this.router.navigate(['/persons/edit/', row.username], navigationExtras);
-    this.editable = !this.editable;
+    this.router.navigate(['/persons/edit/', person.username], navigationExtras);
   }
 
   viewMode(row: Person) {
@@ -107,27 +96,29 @@ export class ListComponent implements OnInit, AfterViewInit {
   }
 
   deleteMode(row: Person) {
-    const dialogRef = this.dialog.open(DialogConfirmDelete, {
+    const dialogRef = this.dialog.open(ConfirmDeleteComponent, {
       width: '250px',
       enterAnimationDuration: 250,
       exitAnimationDuration: 250,
       data: { row },
     });
     dialogRef.afterClosed().subscribe((result) => {
-      console.log({ result });
       if (result) {
-        this.service.delete(row.id).subscribe(
-          (message: string) => {
-            console.log(message);
-            this.loadData();
-            // Aquí puedes manejar la lógica adicional después de la eliminación
-          },
-          (error: string) => {
-            console.error(error);
-            // Aquí puedes manejar cualquier lógica adicional en caso de error
-          },
-        );
+        of(this.service.delete(row)).subscribe({
+          next: (response) =>
+            response.subscribe((msg) => {
+              this.openSnackBar(msg);
+              this.loadData();
+            }),
+        });
       }
+    });
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'Ok', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
     });
   }
 }
@@ -143,38 +134,5 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
       control.invalid &&
       (control.dirty || control.touched || isSubmitted)
     );
-  }
-}
-
-@Component({
-  selector: 'dialog-animations-example-dialog',
-  template: `<h2 mat-dialog-title>Eliminar a {{ this.data.row.name }}</h2>
-    <mat-dialog-content>
-      ¿Está seguro de que desea eliminar este registro?
-    </mat-dialog-content>
-    <mat-dialog-actions>
-      <button mat-button mat-dialog-close cdkFocusInitial (click)="no()">No</button>
-      <button mat-button mat-dialog-close (click)="yes()">Ok</button>
-    </mat-dialog-actions>`,
-  standalone: true,
-  imports: [
-    MatButtonModule,
-    MatDialogActions,
-    MatDialogClose,
-    MatDialogTitle,
-    MatDialogContent,
-  ],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-})
-export class DialogConfirmDelete {
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    public dialogRef: MatDialogRef<DialogConfirmDelete>,
-  ) {}
-  no(): void {
-    this.dialogRef.close(false);
-  }
-  yes(): void {
-    this.dialogRef.close(true);
   }
 }

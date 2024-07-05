@@ -87,6 +87,7 @@
           <mat-select formControlName="docType">
             <mat-option value="cc">CC</mat-option>
             <mat-option value="ce">CE</mat-option>
+            <mat-option value="dni">DNI</mat-option>
             <mat-option value="pasaporte">Pasaporte</mat-option>
             <mat-option value="other">Otro</mat-option>
           </mat-select>
@@ -204,10 +205,10 @@
         </mat-form-field>
       </div>
       <div class="flex w-full justify-end gap-5">
-        <button mat-stroked-button type="submit" routerLink="''" style="color: #fa6767">
+        <button mat-stroked-button type="submit" (click)="exit()" style="color: #fa6767">
           Salir
         </button>
-        <button mat-stroked-button type="submit" [disabled]="false">
+        <button mat-stroked-button type="submit" (click)="onSave()" [disabled]="false">
           Hecho
         </button>
       </div>

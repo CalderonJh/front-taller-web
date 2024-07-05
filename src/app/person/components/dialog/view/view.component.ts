@@ -1,5 +1,5 @@
 import { Component, Inject } from '@angular/core';
-import { Person } from '../../interfaces/person';
+import { Person } from '../../../interfaces/person';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar } from '@angular/material/snack-bar';
 
@@ -17,7 +17,7 @@ export class ViewComponent {
     private _snackBar: MatSnackBar,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    this.person = data.person;
+    this.person = data.row;
   }
 
   openSnackBar() {

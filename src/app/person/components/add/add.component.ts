@@ -1,11 +1,12 @@
 import { Component, OnInit, signal } from '@angular/core';
-import {
-  FormBuilder,
-  FormGroup,
-  Validators as v,
-} from '@angular/forms';
+import { FormBuilder, FormGroup, Validators as v } from '@angular/forms';
 import { Person } from '../../interfaces/person';
 import { Router } from '@angular/router';
+import { RestService } from '../../services/rest.service';
+import { Observable, of } from 'rxjs';
+import { MatSnackBar } from '@angular/material/snack-bar';
+
+type saveMethod = (arg: Person) => Observable<string>;
 
 @Component({
   selector: 'app-add',
@@ -14,7 +15,7 @@ import { Router } from '@angular/router';
 })
 export class AddComponent implements OnInit {
   hide = signal(true);
-  person?: Person;
+  statePerson?: Person;
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide);
@@ -29,32 +30,42 @@ export class AddComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private service: RestService,
+    private _snackBar: MatSnackBar,
   ) {
     const navigation = this.router.getCurrentNavigation();
     if (navigation?.extras.state) {
-      this.person = navigation.extras.state['person'];
+      this.statePerson = navigation.extras.state['person'];
     }
   }
 
   ngOnInit() {
     this.defineDates();
     this.form = this.fb.group({
-      name: [this.person?.name || '', [v.required]],
-      lastName: [this.person?.lastName || '', [v.required]],
-      email: [this.person?.email || '', [v.required, v.email]],
-      phone: [this.person?.phone || '', [v.required]],
-      dob: [this.person ? new Date(this.person.birthDate) : '', [v.required]],
-      docType: [this.person?.document.type.toLowerCase() || 'cc', [v.required]],
-      docNumber: [this.person?.document.number || '', [v.required]],
-      docDescription: [this.person?.document.description || ''],
-      city: [this.person?.city.name || '', [v.required]],
-      state: [this.person?.city.state || '', [v.required]],
-      country: [this.person?.city.country || '', [v.required]],
-      username: [this.person?.username || '', [v.required]],
-      password: ['', [v.required]],
-      confirmPassword: ['', [v.required]],
+      id: [this.statePerson?.id || 0],
+      name: [this.statePerson?.name || '', [v.required]],
+      lastName: [this.statePerson?.lastName || '', [v.required]],
+      email: [this.statePerson?.email || '', [v.required, v.email]],
+      phone: [this.statePerson?.phone || '', [v.required]],
+      dob: [
+        this.statePerson ? new Date(this.statePerson.birthDate) : '',
+        [v.required],
+      ],
+      docType: [
+        this.statePerson?.document.type.toLowerCase() || 'cc',
+        [v.required],
+      ],
+      docNumber: [this.statePerson?.document.number || '', [v.required]],
+      docDescription: [this.statePerson?.document.description || ''],
+      city: [this.statePerson?.city.name || '', [v.required]],
+      state: [this.statePerson?.city.state || '', [v.required]],
+      country: [this.statePerson?.city.country || '', [v.required]],
+      username: [this.statePerson?.username || '', [v.required]],
+      password: [this.statePerson?.password || '', [v.required]],
+      confirmPassword: [this.statePerson?.password || '', [v.required]],
     });
-    if (this.person) {
+
+    if (this.statePerson) {
       this.form.get('password')!.disable();
       this.form.get('confirmPassword')!.disable();
     }
@@ -81,5 +92,37 @@ export class AddComponent implements OnInit {
 
   preventDefault(event: Event) {
     event.preventDefault();
+  }
+
+  exit() {
+    this.form.reset();
+    this.router.navigate(['/persons']);
+  }
+
+  onSave() {
+    let person: Person = this.form.getRawValue();
+    of(this.service.put(person)).subscribe({
+      next: (response) =>
+        response.subscribe((msg) => {
+          this.openSnackBar(msg);
+        }),
+    });
+    // this.save(person, this.statePerson ? this.service.put : this.service.post);
+  }
+
+  save(person: Person, saveMethod: saveMethod) {
+    of(saveMethod(person)).subscribe({
+      next: (response) =>
+        response.subscribe((msg) => {
+          this.openSnackBar(msg);
+        }),
+    });
+  }
+
+  openSnackBar(message: string) {
+    this._snackBar.open(message, 'Ok', {
+      horizontalPosition: 'end',
+      verticalPosition: 'top',
+    });
   }
 }

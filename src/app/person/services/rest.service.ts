@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { Document } from '../interfaces/document';
 import { HttpClient } from '@angular/common/http';
 import { Person } from '../interfaces/person';
-import { PERSON_EXAMPLE_DATA } from '../interfaces/data';
-import { catchError, map, Observable, of, tap, throwError } from 'rxjs';
+import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
@@ -15,29 +13,35 @@ export class RestService {
     return this.httpClient.get<Person[]>('http://localhost:8080/person/all');
   }
 
-  put(documento: Document): void {
-    this.httpClient
-      .put('https://jsonplaceholder.typicode.com/todos/1', documento)
-      .subscribe();
-  }
-
-  post(documento: Document): void {
-    this.httpClient
-      .post('https://jsonplaceholder.typicode.com/todos', documento)
-      .subscribe();
-  }
-
-  delete(id: number): Observable<string> {
+  put(person: Person): Observable<string> {
     return this.httpClient
-      .delete(`http://localhost:8080/person/delete/${id}`)
+      .put('http://localhost:8080/person/update', person)
       .pipe(
-        map(() => 'Person deleted successfully'), // Emitir mensaje de éxito manualmente
-        tap(() => {
-          console.log('Person deleted');
-        }),
+        map(() => 'Actualizado correctamente'),
         catchError((e) => {
-          console.error('Error deleting person: ', e);
-          // Devolver un observable con el mensaje de error
+          console.log(e);
+          return of('Error actualizando persona');
+        }),
+      );
+  }
+
+  post(person: Person): Observable<string> {
+    return this.httpClient
+      .post('https://jsonplaceholder.typicode.com/todos', person)
+      .pipe(
+        map(() => 'Creado correctamente'),
+        catchError(() => {
+          return of('Error creando persona');
+        })
+      );
+  }
+
+  delete(person: Person): Observable<string> {
+    return this.httpClient
+      .delete(`http://localhost:8080/person/delete/${person.id}`)
+      .pipe(
+        map(() => 'Eliminaste a '.concat(person.name)),
+        catchError(() => {
           return of('Error deleting person');
         }),
       );

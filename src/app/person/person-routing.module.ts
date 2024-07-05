@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { PersonPageComponent } from './pages/person-page/person-page.component';
 import { ListComponent } from './components/list/list.component';
-import { ViewComponent } from './components/view/view.component';
+import { ViewComponent } from './components/dialog/view/view.component';
 import { AddComponent } from './components/add/add.component';
 
 const routes: Routes = [
